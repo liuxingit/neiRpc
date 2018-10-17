@@ -1,0 +1,8 @@
+{{#each item}}
+import * as {{sClassName}} from './{{sClassName}}';
+{{/each}}
+export {
+    {{#each item}}
+    {{sClassName}}{{#if @last}}{{else}},{{/if}}
+    {{/each}}
+};

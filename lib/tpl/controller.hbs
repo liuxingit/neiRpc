@@ -1,0 +1,55 @@
+/**
+ * Controller
+ * 类名：{{item.className}}
+ */
+import { Controller } from 'egg';
+
+export default class {{item.className}}Controller extends Controller {
+   
+    {{#each item.paths}}
+    /**
+     * name：{{name}}
+     * desc：{{description}}
+     * 接口名：/api/{{sClassName}}/{{path}}
+     * 负责人：{{realname}}
+     * params: {
+        {{#each params}}
+            {{name}}: {{#if isArray}}Array{{else}}{{typeName}}{{/if}} {{#if required}}必需{{else}}非必须{{/if}} {{description}}
+        {{/each}}
+     * }
+     */
+    async {{path}}() {
+        try {
+            {{#if params}}
+            const { {{#each params}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}} } = {{#ifExpress method 'get'}}this.ctx.query{{else}}this.ctx.request.body{{/ifExpress}};
+            {{/if}}
+            
+            const data = await this.ctx.service.{{sClassName}}.{{path}}(
+            {{#if datatypeName}}
+            {
+            {{/if}}
+            {{#each params}}
+                {{name}}{{#if subName}}: {{subName}}{{#unless required}} || null{{/unless}}{{/if}}{{#if @last}}{{else}}, {{/if}}
+            {{/each}}
+            {{#if datatypeName}}
+            }
+            {{/if}}
+            );
+            
+            const resData = data.body;
+            if (resData && resData.result) {
+                this.ctx.body = resData.result;
+            } else {
+                this.ctx.body = {
+                    retCode: 500,
+                    retDesc: resData && resData.error ? resData.error.message : '后端服务访问失败'
+                };
+            }
+            this.ctx.body = data;
+        } catch (error) {
+            this.ctx.body = { resCode: 500, resDesc: '服务请求失败: ' + error };
+        }
+    }
+    {{/each}}
+    
+}

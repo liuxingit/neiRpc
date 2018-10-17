@@ -1,0 +1,21 @@
+{
+  "name": "neirpc",
+  "version": "0.0.1",
+  "description": "auto create RPC by nei",
+  "main": "index.js",
+  "bin": {
+    "neirpc": "bin/neirpc.js"
+  },
+  "keywords": [
+    "rpc",
+    "nei",
+    "KAPP"
+  ],
+  "author": "liuxin",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "commander": "^2.15.1",
+    "handlebars": "^4.0.12"
+  }
+}

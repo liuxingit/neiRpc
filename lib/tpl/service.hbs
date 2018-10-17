@@ -1,0 +1,59 @@
+/**
+ * 类名：{{item.sClassName}}
+ */
+import { RPCService } from '@kapp/dubbojs';
+
+class {{item.className}} extends RPCService {
+   static config(groups) {
+       return {
+           interface: '{{item.fullClassName}}',
+           jsonRpcVersion: '2.0',
+           group: groups.default,
+           protocol: 'jsonrpc',
+           timeout: 3000,
+           // 可选
+           pool: {
+               min: 2,
+               max: 10,
+               maxWaitingClients: 10,
+               keepAlive: true
+           }
+       }
+   };
+
+    {{#each item.paths}}
+
+    /**
+     * {{sClassName}}
+     * name：{{name}}
+     * desc：{{description}}
+     * 接口名：/api/{{sClassName}}/{{path}}
+     * 负责人：{{realname}}
+     */
+    public async {{path}}(
+        {{~#unless datatypeName~}}
+            {{~#each params}}{{~name~}}
+                {{#if @last}}{{else}}, {{/if~}}
+            {{~/each}}
+        {{~else~}}
+            params
+        {{~/unless~}}
+        ) {
+        return this.invoke('{{path}}', [ 
+        {{#unless datatypeName}}
+            {{#each params}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}}
+        {{else}}
+            params
+        {{/unless}} 
+        ], [], { 
+            retry: 3,
+            mock: {
+                resCode: 500,
+                resDesc: '服务请求失败'
+            }
+        });
+    }
+    {{/each}}
+}
+
+export default {{item.className}};
