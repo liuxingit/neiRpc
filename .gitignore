@@ -4,3 +4,4 @@ node_modules
 .neirpc.json
 neiRpcTpl
 mock.json
+.DS_Store
