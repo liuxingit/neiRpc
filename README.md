@@ -35,7 +35,7 @@
 
 # Usage
 
-npm install neirpc -g (最好全局安装)
+npm i neirpc.js -g (最好全局安装)
 
 第一种用法：
 
