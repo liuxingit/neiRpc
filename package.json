@@ -1,5 +1,5 @@
 {
-  "name": "kappneirpc",
+  "name": "neirpc.js",
   "version": "0.0.1",
   "description": "auto create RPC by nei",
   "main": "index.js",
