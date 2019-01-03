@@ -16,6 +16,7 @@ const createInterface = async (config) => {
     await MKDIRS.dirExists(path.join(process.cwd(), CONF.API_DIST));
     await MKDIRS.dirExists(path.join(process.cwd(), CONF.SERVICE_DIST));
     await MKDIRS.dirExists(path.join(process.cwd(), CONF.CONTROLLER_DIST));
+    await MKDIRS.dirExists(path.join(process.cwd(), CONF.MOCK_DIST));
     let dirExistsFlag = await MKDIRS.dirExistsFlag(path.join(process.cwd(), CONF.TPL_DIST));
     if(dirExistsFlag === 0){//目录名和文件名冲突
         return false;
@@ -34,4 +35,5 @@ const createInterface = async (config) => {
     }
     
 };
+
 module.exports = createInterface;
