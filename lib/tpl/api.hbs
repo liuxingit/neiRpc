@@ -15,12 +15,13 @@ import ajax from '@/common/utils/ajax';
         {{/each}}
     * }
     */
+{{#if params.length}}
 {{#ifExpress method 'get'}}
 export function {{path}}(params) {
 {{else}}
 export function {{path}}(data) {
 {{/ifExpress}}
-    return ajax.{{#if method}}{{method}}{{else}}post{{/if}}('{{path}}', {
+    return ajax.{{#if method}}{{method}}{{else}}post{{/if}}('/api/{{sClassName}}/{{path}}', {
         {{#ifExpress method 'get'}}
         params 
         {{else}}
@@ -28,5 +29,9 @@ export function {{path}}(data) {
         {{/ifExpress}} 
     });
 }
-
+{{else}}
+export function {{path}}() {
+    return ajax.{{#if method}}{{method}}{{else}}post{{/if}}('/api/{{sClassName}}/{{path}}');
+}
+{{/if}}
 {{/each}}
