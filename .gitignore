@@ -5,3 +5,4 @@ node_modules
 neiRpcTpl
 mock.json
 .DS_Store
+package-lock.json
