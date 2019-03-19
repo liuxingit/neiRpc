@@ -1,6 +1,6 @@
 {
   "name": "neirpc.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "auto create RPC by nei",
   "main": "index.js",
   "bin": {
