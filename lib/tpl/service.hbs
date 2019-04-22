@@ -7,9 +7,14 @@ class {{item.className}} extends RPCService {
    static config(groups) {
        return {
            interface: '{{item.fullClassName}}',
+           {{#ifExpress item.protocol 'dubbo'}}
+           dubboVersion: '3.0.5.1',
+           version: '1.0',
+           {{else}}
            jsonRpcVersion: '2.0',
+           {{/ifExpress}}
            group: groups.default,
-           protocol: 'jsonrpc',
+           protocol: '{{item.protocol}}',
            timeout: 3000,
            // 可选
            pool: {
@@ -40,11 +45,30 @@ class {{item.className}} extends RPCService {
         {{~/unless~}}
         ) {
         return this.invoke('{{path}}', [ 
+        {{#ifExpress protocol 'dubbo'}}
+            {{#unless datatypeName}}
+            {{#each params}}
+            {
+                $class: 'java.lang.{{typeName}}',
+                $: {{name}}
+            {{#if @last}}
+            }
+            {{else}}
+            }, {{/if}}
+            {{/each}}
+            {{else}}
+            {
+                $class: {{datatypeName}},
+                $: {{params}}
+            }
+            {{/unless}}
+        {{else}}
         {{#unless datatypeName}}
             {{#each params}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}}
         {{else}}
             params
-        {{/unless}} 
+        {{/unless}}
+        {{/ifExpress}}
         ], [], { 
             retry: 3,
             mock: {

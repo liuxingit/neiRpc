@@ -4,6 +4,9 @@
 - 生成node层的controller、service、router，以及client的api
 （参考KAPP）
 
+# 更新记录
+- 1.1.0 版本及以后支持了dubbo协议和jsonrpc协议两种，默认为jsonrpc
+- 1.1.0 版本及以后修改了TYPE_SWITCH配置（不使用则无影响）
 # tips
 - 后端nei上定义的rpc接口入参可为对象，也可为参数平铺，注意参数平铺则强依赖后端参数顺序
 - nei接口的标签，标注.neirpc.json中的TAG值的为get请求，不标注默认生成post请求
@@ -26,8 +29,13 @@
     SERVICE_DIST: "./server/app/service", //node 的service层
     CONTROLLER_DIST: "./server/app/controller", //node 的controller层
     ROUTER_DIST: "./server/app", //node 的 存放 router的目录
-    GROUP_NAME: [],//业务分组，只拉取该分组下的接口数据
-    TYPE_SWITCH: ['Number'],//入参需要做强制转换的数据类型,跟NEI类型一致
+    GROUP_NAME: ['AA组', 'BB组'],//业务分组，只拉取该分组下的接口数据
+    PROTOCOL: {
+        'AA组': 'dubbo'
+    },// 各组支持的协议，默认jsonrpc
+    TYPE_SWITCH: {
+        Number: "Number"
+    },//入参需要做强制转换的数据类型,跟NEI类型一致
     RPC_DATA: false//命令执行路径下生成rpc的接口数据，主要用于debugger
 }
 ```

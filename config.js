@@ -16,8 +16,11 @@ const Config = {
     CONTROLLER_DIST: "./server/app/controller",
     ROUTER_DIST: "./server/app",
     MOCK_DIST: "./server/mock",
+    PROTOCOL: {},// 各组支持的协议，默认jsonrpc
     GROUP_NAME: [],//业务分组，只拉取该分组下的接口数据
-    TYPE_SWITCH: ['Number'],//入参需要做强制转换的数据类型,跟NEI类型一致
+    TYPE_SWITCH: {
+        Number: "Number"
+    },//入参需要做强制转换的数据类型,跟NEI类型一致
     RPC_DATA: false
 }
 module.exports = Config
