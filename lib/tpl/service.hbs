@@ -41,9 +41,17 @@ class {{item.className}} extends RPCService {
                 {{#if @last}}{{else}}, {{/if~}}
             {{~/each}}
         {{~else~}}
-            params
+        {{#ifExpress protocol 'dubbo'}}{{#if datatypeName}}{{datatypeName}}{{else}}params{{/if}}{{else}}params{{/ifExpress}}
         {{~/unless~}}
         ) {
+        {{#unless datatypeName}}
+            {{#each params}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}}
+        {{else}}
+            params
+        {{/unless}}
+        {{/ifExpress}}
+        );
+        {{else}}
         return this.invoke('{{path}}', [ 
         {{#ifExpress protocol 'dubbo'}}
             {{#unless datatypeName}}
@@ -58,8 +66,8 @@ class {{item.className}} extends RPCService {
             {{/each}}
             {{else}}
             {
-                $class: {{datatypeName}},
-                $: {{params}}
+                $class: '{{datatypeName}}',
+                $: {{datatypeName}}
             }
             {{/unless}}
         {{else}}
@@ -68,7 +76,6 @@ class {{item.className}} extends RPCService {
         {{else}}
             params
         {{/unless}}
-        {{/ifExpress}}
         ], [], { 
             retry: 3,
             mock: {
