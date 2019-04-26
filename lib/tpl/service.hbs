@@ -11,7 +11,7 @@ class {{item.className}} extends RPCService {
            dubboVersion: '3.0.5.1',
            version: '1.0',
            {{else}}
-           jsonRpcVersion: '2.0',
+           jsonRpcVersion: '2.0',å
            {{/ifExpress}}
            group: groups.default,
            protocol: '{{item.protocol}}',
@@ -35,48 +35,23 @@ class {{item.className}} extends RPCService {
      * 接口名：/api/{{sClassName}}/{{path}}
      * 负责人：{{realname}}
      */
-    public async {{path}}(
-        {{~#unless datatypeName~}}
-            {{~#each params}}{{~name~}}
-                {{#if @last}}{{else}}, {{/if~}}
-            {{~/each}}
-        {{~else~}}
-        {{#ifExpress protocol 'dubbo'}}{{#if datatypeName}}{{datatypeName}}{{else}}params{{/if}}{{else}}params{{/ifExpress}}
-        {{~/unless~}}
-        ) {
-        {{#unless datatypeName}}
-            {{#each params}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}}
-        {{else}}
-            params
-        {{/unless}}
-        {{/ifExpress}}
-        );
-        {{else}}
-        return this.invoke('{{path}}', [ 
+    
+    public async {{path}}({{#each params}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}}) {
+        return this.invoke('{{path}}', [
         {{#ifExpress protocol 'dubbo'}}
-            {{#unless datatypeName}}
             {{#each params}}
             {
-                $class: 'java.lang.{{typeName}}',
+                $class: '{{#if datatypeName}}{{datatypeName}}{{else}}java.lang.{{typeName}}{{/if}}',
                 $: {{name}}
             {{#if @last}}
             }
             {{else}}
             }, {{/if}}
             {{/each}}
-            {{else}}
-            {
-                $class: '{{datatypeName}}',
-                $: {{datatypeName}}
-            }
-            {{/unless}}
         {{else}}
-        {{#unless datatypeName}}
             {{#each params}}{{name}}{{#if @last}}{{else}}, {{/if}}{{/each}}
-        {{else}}
-            params
-        {{/unless}}
-        ], [], { 
+        {{/ifExpress}}
+        ], ['X-Requested-With: XMLHttpRequest'], { 
             retry: 3,
             mock: {
                 resCode: 500,
